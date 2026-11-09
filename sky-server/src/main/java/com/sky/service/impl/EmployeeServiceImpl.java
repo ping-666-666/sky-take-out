@@ -17,6 +17,7 @@ import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.EmployeeService;
+import lombok.Builder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import org.springframework.util.DigestUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Builder
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -69,6 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 新增员工
+     *
      * @param employeeDTO
      */
     public void save(EmployeeDTO employeeDTO) {
@@ -93,11 +96,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
         long total = page.getTotal();
         List<Employee> result = page.getResult();
-        return new PageResult(total,result);
+        return new PageResult(total, result);
+    }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        Employee employee = Employee.builder().id(id).status(status).build();
+        employeeMapper.update(employee);
+
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("******");
+        return employee;
+    }
+
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee =new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employee.setUpdateTime(LocalDateTime.now());
+        employeeMapper.update(employee);
     }
 
 }
