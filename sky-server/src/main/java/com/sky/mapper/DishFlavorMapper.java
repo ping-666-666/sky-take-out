@@ -12,4 +12,6 @@ import java.util.List;
 public interface DishFlavorMapper {
     @AutoFill(value = OperationType.INSERT)
     void insertBatch(List<DishFlavor> flavors);
+
+    void deleteByIds(List<Long> ids);
 }

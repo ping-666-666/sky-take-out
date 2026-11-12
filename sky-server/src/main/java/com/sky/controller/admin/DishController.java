@@ -37,4 +37,12 @@ public class DishController {
 
     }
 
+    @DeleteMapping
+    public Result delete(@RequestParam List<Long> ids) {
+
+        log.info("删除菜品: {}",ids);
+        dishService.deleteByIds(ids);
+        return Result.success();
+    }
+
 }
