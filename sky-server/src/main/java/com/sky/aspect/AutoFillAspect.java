@@ -50,6 +50,11 @@ public class AutoFillAspect {
             return;
         }
         Object entity = args[0];
+        //自动填充只针对「单个实体对象」；集合/批量参数（如 insertBatch(List<DishFlavor>)）直接跳过
+        if (entity == null || entity instanceof java.util.Collection) {
+            log.warn("{} 的第一个参数不是实体对象，跳过公共字段填充", signature.getName());
+            return;
+        }
 
         //获取准备赋值的参数
         LocalDateTime now = LocalDateTime.now();
@@ -73,7 +78,7 @@ public class AutoFillAspect {
         }
         else if (value == OperationType.UPDATE) {
             try {
-                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, Long.class);
+                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
                 setUpdateTime.invoke(entity, now);
                 setUpdateUser.invoke(entity, currentId);
