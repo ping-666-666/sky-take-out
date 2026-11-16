@@ -19,4 +19,8 @@ public interface DishService {
     DishVO getByIdWitnFlavor(Long id);
 
     void updateByFlavor(DishDTO dishDTO);
+
+    void setStatus(Integer status, Long id);
+
+    List<DishVO> getDishById(Integer id);
 }
