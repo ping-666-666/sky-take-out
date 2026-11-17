@@ -20,7 +20,7 @@ import java.util.HashMap;
 @RestController
 @Slf4j
 @RequestMapping("/user/user")
-public class UsrController {
+public class UesrController {
     @Autowired
     private UserService userService;
     @Autowired
