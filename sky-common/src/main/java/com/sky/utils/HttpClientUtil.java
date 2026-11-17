@@ -63,8 +63,13 @@ public class HttpClientUtil {
             e.printStackTrace();
         }finally {
             try {
-                response.close();
+                // ===== [AI 修改 2026-11-17] 开始：execute 抛异常时 response 还是 null，直接 close 会抛 NPE，
+                // 而且这个 NPE 会把上面 catch 里的容错顶掉（调用方拿到 500 而不是空串） =====
+                if (response != null) {
+                    response.close();
+                }
                 httpClient.close();
+                // ===== [AI 修改 2026-11-17] 结束 =====
             } catch (IOException e) {
                 e.printStackTrace();
             }
