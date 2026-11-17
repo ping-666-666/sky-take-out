@@ -14,6 +14,10 @@ sky:
     endpoint: oss-cn-beijing.aliyuncs.com
     bucket-name: ping--king-sky-take-out
 
+  wechat:
+    appid: wxaba23126416cb1f1
+    secret: af0abbbae8538fbeff9e321339d5d5ea
+
 # 可选：加载本地私密配置（已被 .gitignore 忽略，不会被提交）
 spring:
   config:
