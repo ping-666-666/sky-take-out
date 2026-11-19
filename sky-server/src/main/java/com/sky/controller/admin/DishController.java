@@ -33,6 +33,7 @@ public class DishController {
         cleanCache(key);
         return Result.success();
 
+
     }
     @GetMapping("/page")
     public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
