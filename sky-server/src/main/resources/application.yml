@@ -46,6 +46,13 @@ sky:
     user-secret-key: itheima
     user-ttl: 7200000
     user-token-name: authentication
+
+  # ===== [AI 修改 2026-11-22] 开始：问题一（金额完全信任前端）修复 - 打包费服务端定价 =====
+  order:
+    # 每单打包费（元）。前端传的 packAmount 不再生效，改这里即可调整
+    pack-amount: 2
+  # ===== [AI 修改 2026-11-22] 结束 =====
+
   alioss:
     access-key-id: ${sky.alioss.access-key-id}
     endpoint: ${sky.alioss.endpoint}

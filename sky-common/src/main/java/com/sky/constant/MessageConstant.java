@@ -25,5 +25,8 @@ public class MessageConstant {
     public static final String ORDER_NOT_FOUND = "订单不存在";
     public static final String ALREADY_EXISTS ="已存在";
 
+    // ===== [AI 修改 2026-11-22] 开始：问题一（金额完全信任前端）修复 - 下单金额校验提示 =====
+    public static final String ORDER_ITEM_INVALID = "购物车中存在无效商品（数量或价格异常），请刷新后重试";
+    // ===== [AI 修改 2026-11-22] 结束 =====
 
 }
