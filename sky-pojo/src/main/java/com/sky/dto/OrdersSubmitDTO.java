@@ -25,7 +25,7 @@ public class OrdersSubmitDTO implements Serializable {
     //餐具数量状态  1按餐量提供  0选择具体数量
     private Integer tablewareStatus;
     // ===== [AI 修改 2026-11-22] 开始：问题一（金额完全信任前端）修复 =====
-    // 打包费字段已删除：打包费改由服务端定价（配置 sky.order.pack-amount），
+    // 打包费字段已删除：打包费改由服务端定价（配置 sky.order.pack-unit-price，按份累计），
     // 前端即使仍然传 packAmount，也会被 Jackson 忽略（FAIL_ON_UNKNOWN_PROPERTIES=false）。
     // 总金额：仅用于和服务端计算结果做一致性比对（不一致只记 warn 日志），
     // 传什么值都不会进入订单表，真正入库的金额由 OrderServiceImpl 按购物车重新计算。

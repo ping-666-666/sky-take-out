@@ -47,11 +47,14 @@ sky:
     user-ttl: 7200000
     user-token-name: authentication
 
-  # ===== [AI 修改 2026-11-22] 开始：问题一（金额完全信任前端）修复 - 打包费服务端定价 =====
+  # ===== [AI 修改 2026-11-23] 开始：打包费由「每单固定」改为「按份累计」 =====
   order:
-    # 每单打包费（元）。前端传的 packAmount 不再生效，改这里即可调整
-    pack-amount: 2
-  # ===== [AI 修改 2026-11-22] 结束 =====
+    # 每份打包费单价（元/份）：打包费 = 购物车内所有菜品、套餐的份数之和 × 该单价
+    # 注意 orders.pack_amount 是整型列，单价建议配置为整数元
+    pack-unit-price: 1
+    # 固定配送费（元/单）：任何区域任何地址都收 6 元，只并入订单总额，不单独落库
+    delivery-fee: 6
+  # ===== [AI 修改 2026-11-23] 结束 =====
 
   alioss:
     access-key-id: ${sky.alioss.access-key-id}
@@ -61,3 +64,11 @@ sky:
   wechat:
     appid: ${sky.wechat.appid}
     secret: ${sky.wechat.secret}
+    mchid: ${sky.wechat.mchid}
+    mchSerialNo: ${sky.wechat.mchSerialNo}
+    privateKeyFilePath: ${sky.wechat.privateKeyFilePath}
+    apiV3Key: ${sky.wechat.apiV3Key}
+    weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath}
+    notifyUrl: ${sky.wechat.notifyUrl}
+    refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
+
