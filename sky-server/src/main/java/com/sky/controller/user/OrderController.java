@@ -1,8 +1,12 @@
 package com.sky.controller.user;
 
+import cn.hutool.db.sql.Order;
+import com.github.pagehelper.Page;
 import com.sky.dto.OrdersDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.mapper.OrderMapper;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderPaymentVO;
@@ -11,12 +15,9 @@ import com.sky.vo.OrderVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("userOrderController")
 @RequestMapping("/user/order")
 @Slf4j
 public class OrderController {
@@ -28,9 +29,6 @@ public class OrderController {
         log.info("用户下单 : {}", ordersSubmitDTO);
        OrderSubmitVO orderSubmitVO =   orderService.submit(ordersSubmitDTO);
        return Result.success(orderSubmitVO);
-
-
-
     }
     /**
      * 订单支付
@@ -47,4 +45,31 @@ public class OrderController {
         return Result.success(orderPaymentVO);
     }
 
+    @GetMapping("/historyOrders")
+    public Result<PageResult> page(Integer page,Integer pageSize,Integer status){
+    log.info("查询历史订单 :{},{},{}",page,pageSize,status);
+    PageResult pageResult  =  orderService.page(page,pageSize,status);
+    return Result.success(pageResult);
+    }
+
+    @GetMapping("/orderDetail/{id}")
+    public Result<OrderVO> getOrder(@PathVariable Long id){
+        log.info("查询订单详情 :{}",id);
+        OrderVO orderVO = orderService.getOrderDetails(id);
+        return Result.success(orderVO);
+
+    }
+
+    @PutMapping("/cancel/{id}")
+    public Result cancel(@PathVariable Long id){
+        log.info("取消订单 :{}",id);
+        orderService.cancelOrder(id);
+        return Result.success();
+    }
+
+    @PostMapping("/repetition/{id}")
+    public Result  repetition(@PathVariable  Long id){
+        log.info("再来一单 :{}",id);
+        orderService.repetition(id);
+        return Result.success();}
 }

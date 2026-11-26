@@ -28,11 +28,6 @@ public class ShoppingCartController {
         log.info("加入购物车的菜品或套餐iD :{}",shoppingCartDTO.getDishId() == null ? shoppingCartDTO.getSetmealId() : shoppingCartDTO.getDishId());
         shoppingCartCartService.addShoppingCart(shoppingCartDTO);
         return Result.success();
-
-
-
-
-
     }
 
     @GetMapping("/list")

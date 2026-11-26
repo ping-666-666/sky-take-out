@@ -71,4 +71,8 @@ sky:
     weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath}
     notifyUrl: ${sky.wechat.notifyUrl}
     refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
+  shop:
+    address: 湖南省湘潭市雨湖区湖南科技大学第一图书馆
+  baidu:
+    ak: KBlqU51NqHAmjB54vB2WPRki01s8NdG8
 
