@@ -23,6 +23,7 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Value("${sky.baidu.ak}")
     private String ak;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
 
     /**
@@ -124,6 +127,14 @@ public class OrderServiceImpl implements OrderService {
         Integer OrderStatus = Orders.TO_BE_CONFIRMED;  //订单状态，待接单
         LocalDateTime check_out_time = LocalDateTime.now();//更新支付时间
         orderMapper.updateStatus(OrderStatus, OrderPaidStatus, check_out_time, this.orders.getId());
+
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("type",1);//消息类型，1表示来单提醒
+        map.put("orderId",orders.getId());
+        map.put("content","订单号: " + orders.getNumber());
+
+        webSocketServer.sendToAllClient(JSONObject.toJSONString(map));
+
         return vo;
     }
 
@@ -384,6 +395,21 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(order);
 
 
+    }
+
+
+    public void reminder(Long id) {
+        Orders orders = orderMapper.getById(id);
+        if (orders == null){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("type",2);
+        map.put("orderId",orders.getId());
+        map.put("content","订单号 : {}" + orders.getNumber());
+
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
     }
 
     // ===== [AI 修改 2026-11-22] 结束 =====
