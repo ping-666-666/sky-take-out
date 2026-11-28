@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -47,4 +48,9 @@ public interface OrderMapper {
 
     @Select("select * from orders where status = #{status} and order_time <= #{check_out_time}")
     List<Orders> getByStatusAndOrderTime( Integer  status, LocalDateTime check_out_time);
+
+    Double sumByMap(Map map);
+
+
+    Integer countByMap(Map map);
 }
